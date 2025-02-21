@@ -66,7 +66,7 @@ function App() {
       });
 
       const data = await response.json();
-      // update books list
+      // update book list
       setBooks((prev) => prev.map((book) => {
         if(book.id === pk){
           return data;
@@ -75,6 +75,19 @@ function App() {
         }
       }));
 
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const deleteBook = async(pk) => {
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/api/books/${pk}`, {
+        method: "DELETE",
+      });
+
+     // update book list
+      setBooks((prev) => prev.filter((book) => book.id !== pk));
     } catch (error) {
       console.log(error);
     }
@@ -97,6 +110,7 @@ function App() {
             <p>Release Year: {book.release_date}</p>
             <input type='text' placeholder='New Title ...' onChange={(e) => setNewTItle(e.target.value)}></input>
             <button onClick={() => updateTitle(book.id, book.release_date)}> Change Title </button>
+            <button onClick={() => deleteBook(book.id)}> Delete </button>
           </div>
         ))}
       </div>
