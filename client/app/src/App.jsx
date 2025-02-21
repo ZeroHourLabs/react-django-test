@@ -4,9 +4,9 @@ import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
-  const[books, setBooks] = useState([]);
-  const[title, setTitle] = useState("")
-  const[releaseYear, setReleaseYear] = useState(0);
+  const [books, setBooks] = useState([]);
+  const [title, setTitle] = useState("")
+  const [releaseYear, setReleaseYear] = useState(0);
 
   useEffect(() => {
     fetchBooks();
@@ -30,19 +30,19 @@ function App() {
       release_date: releaseYear
     };
 
-    try{
+    try {
       const response = await fetch("http://127.0.0.1:8000/api/books/create/", {
         method: "POST",
         headers: {
-          'Content-Type' : 'application/json',
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(bookData)
       });
-  
+
       const data = await response.json();
       setBooks((prev) => [...prev, data]);
 
-    }catch(error){
+    } catch (error) {
       console.log(error);
     }
 
@@ -59,11 +59,11 @@ function App() {
           <button onClick={addBook}> Add Book </button>
         </div>
         {books.map((book) => (
-        <div>
-          <p>Title: {book.title}</p>
-          <p>Release Year: {book.release_date} </p>
+          <div key={book.id}>
+            <p>Title: {book.title}</p>
+            <p>Release Year: {book.release_date}</p>
           </div>
-          ))}
+        ))}
       </div>
     </>
   )
